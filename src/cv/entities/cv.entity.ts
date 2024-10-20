@@ -1,7 +1,8 @@
+import { TimestampEntity } from 'generics/entities/timestamp.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('cv')
-export class CvEntity {
+export class CvEntity extends TimestampEntity{
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -10,7 +11,7 @@ export class CvEntity {
 
   @Column('varchar', { length: 100 })
   firstName: string;
-  @Column({ type: 'varchar', length: 100 })
+  @Column( { type: 'varchar', length: 100 })
   lastName: string;
 
   @Column('varchar', {
