@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 
@@ -7,9 +8,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const corsOptions = {
-    origin:['http://localhost:4200'],
-  }
-  app.enableCors(corsOptions)
+    origin: ['http://localhost:4200'],
+  };
+  app.enableCors(corsOptions);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // retire tout les champs qui ne sont pas déclaré dans la dto
+      forbidNonWhitelisted: true, // rejette les requêtes qui contiennent des champs non déclaré dans la dto
+    }),
+  );
   const PORT = configService.get('APP_PORT') || 3500;
   await app.listen(PORT);
 }
