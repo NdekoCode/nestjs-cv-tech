@@ -45,6 +45,7 @@ export class CvService {
   async addCv(cv: AddCvDTO): Promise<CvEntity> {
     // Implementation for adding a new CV
     const newCv = this.cvRepository.create(cv);
+    // Va créer un nouvel objet CV en se basant sur les données de la DTO et si elle existe deja dans la BDD, elle va faire un UPDATE
     return await this.cvRepository.save(newCv);
   }
   async updateCv(id: number, cv: Partial<UpdateCvDTO>): Promise<CvEntity> {
@@ -56,5 +57,12 @@ export class CvService {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
     }
     return await this.cvRepository.save(findCv); // On enregistre les nouvelles donnees du CV, typeORM va se charger de faire l'UPDATE
+  }
+  async removeCv(id: number) {
+    const cvToRemove = await this.cvRepository.findOne({ where: { id } });
+    if (!cvToRemove) {
+      throw new NotFoundException(`Cv with ID: ${id} is not found`);
+    }
+    return await this.cvRepository.remove(cvToRemove);
   }
 }

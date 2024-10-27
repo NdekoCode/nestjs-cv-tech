@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 
 import { CvService } from './cv.service';
 import { AddCvDTO } from './dto/add-cv.dto';
@@ -15,7 +15,7 @@ export class CvController {
   }
 
   @Get(':id')
-  async getSingleCv(@Param('id',ParseIntPipe) id:number): Promise<CvEntity> {
+  async getSingleCv(@Param('id', ParseIntPipe) id: number): Promise<CvEntity> {
     return await this.cvService.getSingleCv(id);
   }
 
@@ -23,9 +23,17 @@ export class CvController {
   async addCv(@Body() cv: AddCvDTO): Promise<CvEntity> {
     return await this.cvService.addCv(cv);
   }
-  
-  @Patch(':id')
-  async updateCv(@Body() cv: UpdateCvDTO, @Param('id',ParseIntPipe) id:number): Promise<CvEntity> {
-    return this.cvService.updateCv(id,cv);
+
+  @Patch(':id') // Va juste modifier une partie d'une entité   alors que PUT modifie toute l'entité
+  async updateCv(
+    @Body() cv: UpdateCvDTO,
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<CvEntity> {
+    return this.cvService.updateCv(id, cv);
+  }
+
+  @Delete(':id')
+  async removeCv(@Param('id', ParseIntPipe) id: number) {
+    return await this.cvService.removeCv(id);
   }
 }
