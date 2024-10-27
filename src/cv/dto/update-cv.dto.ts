@@ -1,28 +1,26 @@
 import { Type } from 'class-transformer';
-import {
-    IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Max, MaxLength, Min
-} from 'class-validator';
+import { IsEmail, IsNumber, IsOptional, IsString, Max, MaxLength, Min } from 'class-validator';
 
-export class AddCvDTO {
+export class UpdateCvDTO {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   name: string;
 
   @MaxLength(100)
-  @IsNotEmpty()
+  @IsOptional()
   firstName: string;
 
   @MaxLength(100)
-  @IsNotEmpty()
+  @IsOptional()
   lastName: string;
 
   @IsEmail()
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   email: string;
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   @Type(() => Number)
   @Min(15) // l'age minimal c'est 15 ans
   @Max(60) // l'age maximal c'est 60 ans
@@ -34,7 +32,7 @@ export class AddCvDTO {
   cin: number;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   job: string;
 
   @IsOptional()
