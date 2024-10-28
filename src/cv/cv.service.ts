@@ -65,4 +65,12 @@ export class CvService {
     }
     return await this.cvRepository.remove(cvToRemove);
   }
+
+  async softRemoveCv(id: number) {
+    const cvToRemove = await this.cvRepository.findOne({ where: { id } });
+    if (!cvToRemove) {
+      throw new NotFoundException(`Cv with ID: ${id} is not found`);
+    }
+    return await this.cvRepository.softRemove(cvToRemove);
+  }
 }

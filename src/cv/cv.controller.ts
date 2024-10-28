@@ -36,4 +36,9 @@ export class CvController {
   async removeCv(@Param('id', ParseIntPipe) id: number) {
     return await this.cvService.removeCv(id);
   }
+
+  @Delete('/soft-delete/:id')
+  async softRemoveCv(@Param('id', ParseIntPipe) id: number): Promise<CvEntity> {
+    return this.cvService.softRemoveCv(id);
+  }
 }
