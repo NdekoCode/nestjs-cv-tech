@@ -59,7 +59,7 @@ export class CvService {
     return await this.cvRepository.save(findCv); // On enregistre les nouvelles donnees du CV, typeORM va se charger de faire l'UPDATE
   }
   async removeCv(id: number) {
-    const cvToRemove = await this.cvRepository.findOne({ where: { id } });
+    const cvToRemove = await this.getSingleCv(id);
     if (!cvToRemove) {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
     }
@@ -67,7 +67,7 @@ export class CvService {
   }
 
   async softRemoveCv(id: number) {
-    const cvToRemove = await this.cvRepository.findOne({ where: { id } });
+    const cvToRemove = await this.getSingleCv(id);
     if (!cvToRemove) {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
     }
