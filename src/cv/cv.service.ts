@@ -73,4 +73,23 @@ export class CvService {
     }
     return await this.cvRepository.softRemove(cvToRemove);
   }
+
+  async deleteCv(id: number) {
+    return await this.cvRepository.softDelete(id);
+  }
+  async restoreCv(id: number) {
+    // `restore` n'a pas besoin d'aller chercher une entité spécifique, il va le trouver lui meme et le restorer
+    return await this.cvRepository.restore(id);
+  }
+  async recoverCv(id: number) {
+    const cvToRecover = await this.cvRepository.findOne({
+      where: { id },
+      withDeleted: true,
+    });
+
+    if (!cvToRecover) {
+      throw new NotFoundException(`Cv with ID: ${id} is not found`);
+    }
+    return await this.cvRepository.recover(cvToRecover);
+  }
 }

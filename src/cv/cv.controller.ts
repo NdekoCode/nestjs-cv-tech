@@ -41,4 +41,8 @@ export class CvController {
   async softRemoveCv(@Param('id', ParseIntPipe) id: number): Promise<CvEntity> {
     return this.cvService.softRemoveCv(id);
   }
+  @Get('/recover/:id')
+  async recoverCv(@Param('id', ParseIntPipe) id: number) {
+    return await this.cvService.recoverCv(id);
+  }
 }
