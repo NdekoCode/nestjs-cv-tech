@@ -30,6 +30,13 @@ export class CvService {
     // Je veux avoir une promesse d'avoir des CV-Entity
     return await this.cvRepository.find();
   }
+  
+  /**
+   * Retrieves a single CV entity from the database by its ID.
+   * @param id - The ID of the CV to retrieve.
+   * @returns A promise that resolves to the CV entity with the specified ID.
+   * @throws NotFoundException if the CV with the given ID is not found.
+   */
   async getSingleCv(id: number): Promise<CvEntity> {
     const cv = await this.cvRepository.findOne({ where: { id } });
     if (!cv) {
@@ -58,14 +65,27 @@ export class CvService {
     }
     return await this.cvRepository.save(findCv); // On enregistre les nouvelles donnees du CV, typeORM va se charger de faire l'UPDATE
   }
+
+  /**
+   * Permanently removes a CV from the database.
+   * @param id - The ID of the CV to be removed.
+   * @returns A promise that resolves to the removed CV entity.
+   * @throws NotFoundException if the CV with the given ID is not found.
+   */
   async removeCv(id: number) {
     const cvToRemove = await this.getSingleCv(id);
     if (!cvToRemove) {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
     }
-    return await this.cvRepository.remove(cvToRemove);
+    return await this.cvRepository.remove(cvToRemove); // On supprime définitivement un element
   }
 
+  /**
+   * Soft removes a CV from the database.
+   * @param id - The ID of the CV to be soft removed.
+   * @returns A promise that resolves to the soft removed CV entity.
+   * @throws NotFoundException if the CV with the given ID is not found.
+   */
   async softRemoveCv(id: number) {
     const cvToRemove = await this.getSingleCv(id);
     if (!cvToRemove) {
@@ -74,13 +94,31 @@ export class CvService {
     return await this.cvRepository.softRemove(cvToRemove);
   }
 
+  /**
+   * Soft removes a CV from the database.
+   * @param id - The ID of the CV to be soft removed.
+   * @returns A promise that resolves to the soft removed CV entity.
+   * @throws NotFoundException if the CV with the given ID is not found.
+   */
   async deleteCv(id: number) {
     return await this.cvRepository.softDelete(id);
   }
+  /**
+   * Restores a previously soft-deleted CV from the database.
+   * @param id - The ID of the CV to be restored.
+   * @returns A promise that resolves to the restored CV entity.
+   * @throws NotFoundException if the CV with the given ID is not found.
+   */
   async restoreCv(id: number) {
-    // `restore` n'a pas besoin d'aller chercher une entité spécifique, il va le trouver lui meme et le restorer
+    // `restore` n'a pas besoin d'aller chercher une entité spécifique, il va le trouver lui meme par son id ou l'option `where:{}` et le restorer
     return await this.cvRepository.restore(id);
   }
+  /**
+   * Restores a previously soft-deleted CV from the database.
+   * @param id - The ID of the CV to be restored.
+   * @returns A promise that resolves to the restored CV entity.
+   * @throws NotFoundException if the CV with the given ID is not found.
+   */
   async recoverCv(id: number) {
     const cvToRecover = await this.cvRepository.findOne({
       where: { id },
