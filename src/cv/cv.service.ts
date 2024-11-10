@@ -30,7 +30,7 @@ export class CvService {
     // Je veux avoir une promesse d'avoir des CV-Entity
     return await this.cvRepository.find();
   }
-  
+
   /**
    * Retrieves a single CV entity from the database by its ID.
    * @param id - The ID of the CV to retrieve.
@@ -55,7 +55,7 @@ export class CvService {
     // Va créer un nouvel objet CV en se basant sur les données de la DTO et si elle existe deja dans la BDD, elle va faire un UPDATE
     return await this.cvRepository.save(newCv);
   }
-  
+
   /**
    * Updates an existing CV in the database.
    * @param id - The ID of the CV to be updated.
@@ -151,9 +151,14 @@ export class CvService {
    * Retrieves the number of CVs grouped by age.
    * @returns A promise that resolves to an array of objects containing the age and the count of CVs for that age.
    */
-  async statsCvNumberByAge(){
+  async statsCvNumberByAge(maxAge: number, minAge: number = 0) {
     // On créer notre Query Builder
-    const qb = this.cvRepository.createQueryBuilder('cv') // L'Alias c'est le nom que vous avez ou allez donner à votre entité pour que lorsque vous créer vos requêtes que vous puissiez référencer la table sur laquelle vous travailler.
-    return qb.select('cv.age, count(cv.id)').groupBy('cv.age').getMany();
+    const qb = this.cvRepository.createQueryBuilder('cv'); // L'Alias c'est le nom que vous avez ou allez donner à votre entité pour que lorsque vous créer vos requêtes que vous puissiez référencer la table sur laquelle vous travailler.
+    qb.select('cv.age, count(cv.id) as NUMBER_OF_CV')
+      .groupBy('cv.age')
+      .where('cv.age > :minAge AND cv.age < :maxAge')
+      .setParameters({ maxAge, minAge });
+    console.log(qb.getSql());
+    return await qb.getRawMany();
   }
 }

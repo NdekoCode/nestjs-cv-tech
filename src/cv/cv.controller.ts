@@ -38,9 +38,10 @@ export class CvController {
   }
 
 
-  @Get('stats')
-  async getStatsCvNumberByAge() {
-    return this.cvService.statsCvNumberByAge();
+  @Get('stats/:max/:min')
+  async getStatsCvNumberByAge(@Param('min',ParseIntPipe) min:number=0, @Param('max',ParseIntPipe) max:number=100): Promise<CvEntity[]> {
+    console.log("Params",min,max);
+    return this.cvService.statsCvNumberByAge(max,min);
   }
   /**
    * Retrieves a single CV by its ID.
