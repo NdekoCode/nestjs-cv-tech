@@ -56,11 +56,26 @@ export class CvService {
     return await this.cvRepository.save(newCv);
   }
   
+  /**
+   * Updates an existing CV in the database.
+   * @param id - The ID of the CV to be updated.
+   * @param cv - The partial DTO containing the updated data for the CV.
+   * @returns A promise that resolves to the updated CV entity.
+   * @throws NotFoundException if the CV with the given ID is not found.
+   */
+  /**
+   * Updates an existing CV in the database.
+   * @param id - The ID of the CV to be updated.
+   * @param cv - The partial DTO containing the updated data for the CV.
+   * @returns A promise that resolves to the updated CV entity.
+   * @throws NotFoundException if the CV with the given ID is not found.
+   */
   async updateCv(id: number, cv: Partial<UpdateCvDTO>): Promise<CvEntity> {
-    const findCv = await this.cvRepository.preload({
+    /* const findCv = await this.cvRepository.preload({
       id,
       ...cv,
-    }); // Il va aller chercher l'objet qui a cet ID, et il va précharger cet objet et il va remplacer les anciennes valeur de cette objet par les nouvelles valeurs dans `cv`
+    }); */ // Il va aller chercher l'objet qui a cet ID, et il va précharger cet objet et il va remplacer les anciennes valeur de cette objet par les nouvelles valeurs dans `cv`
+    const findCv = await this.getSingleCv(id);
     if (!findCv) {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
     }
@@ -130,5 +145,15 @@ export class CvService {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
     }
     return await this.cvRepository.recover(cvToRecover);
+  }
+
+  /**
+   * Retrieves the number of CVs grouped by age.
+   * @returns A promise that resolves to an array of objects containing the age and the count of CVs for that age.
+   */
+  async statsCvNumberByAge(){
+    // On créer notre Query Builder
+    const qb = this.cvRepository.createQueryBuilder('cv') // L'Alias c'est le nom que vous avez ou allez donner à votre entité pour que lorsque vous créer vos requêtes que vous puissiez référencer la table sur laquelle vous travailler.
+    return qb.select('cv.age, count(cv.id)').groupBy('cv.age').getMany();
   }
 }

@@ -25,16 +25,6 @@ export class CvController {
     return await this.cvService.getCvs();
   }
 
-  /**
-   * Retrieves a single CV by its ID.
-   *
-   * @param {number} id The ID of the CV to retrieve.
-   * @returns {Promise<CvEntity>} The CvEntity object representing the requested CV.
-   */
-  @Get(':id')
-  async getSingleCv(@Param('id', ParseIntPipe) id: number): Promise<CvEntity> {
-    return await this.cvService.getSingleCv(id);
-  }
 
   /**
    * Adds a new CV.
@@ -47,6 +37,21 @@ export class CvController {
     return await this.cvService.addCv(cv);
   }
 
+
+  @Get('stats')
+  async getStatsCvNumberByAge() {
+    return this.cvService.statsCvNumberByAge();
+  }
+  /**
+   * Retrieves a single CV by its ID.
+   *
+   * @param {number} id The ID of the CV to retrieve.
+   * @returns {Promise<CvEntity>} The CvEntity object representing the requested CV.
+   */
+  @Get(':id')
+  async getSingleCv(@Param('id', ParseIntPipe) id: number): Promise<CvEntity> {
+    return await this.cvService.getSingleCv(id);
+  }
   /**
    * Updates an existing CV.
    *

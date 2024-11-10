@@ -16,21 +16,26 @@ export class CvEntity extends TimestampEntity{
 
   @Column('varchar', {
     unique: true,
+    
   })
   email: string;
 
   @Column({
     type: 'int',
-    update: false, // une colonne qui ne sera pas mise à jour
+    update:false
   })
   age: number;
 
-  @Column('int')
+  @Column('int',{
+    nullable:true
+  })
   cin: number;
 
   @Column()
   job: string;
 
-  @Column()
+  @Column({
+    nullable:true
+  })
   path: string;
 }
