@@ -55,6 +55,7 @@ export class CvService {
     // Va créer un nouvel objet CV en se basant sur les données de la DTO et si elle existe deja dans la BDD, elle va faire un UPDATE
     return await this.cvRepository.save(newCv);
   }
+  
   async updateCv(id: number, cv: Partial<UpdateCvDTO>): Promise<CvEntity> {
     const findCv = await this.cvRepository.preload({
       id,

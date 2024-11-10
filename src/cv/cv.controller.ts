@@ -1,4 +1,4 @@
-import { Body, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 
 import { CvService } from './cv.service';
 import { AddCvDTO } from './dto/add-cv.dto';
@@ -11,6 +11,7 @@ import { CvEntity } from './entities/cv.entity';
  * @export
  * @class CvController
  */
+@Controller('cv')
 export class CvController {
   constructor(private readonly cvService: CvService) {}
 

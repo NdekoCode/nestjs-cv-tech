@@ -13,8 +13,9 @@ async function bootstrap() {
   app.enableCors(corsOptions);
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // retire tout les champs qui ne sont pas déclaré dans la dto
-      forbidNonWhitelisted: true, // rejette les requêtes qui contiennent des champs non déclaré dans la dto
+      whitelist: true, // retire tout les champs qui ne sont pas déclaré dans la DTO
+      forbidNonWhitelisted: true, // rejette les requêtes qui contiennent des champs non déclaré dans la DTO,
+      
     }),
   );
   const PORT = configService.get('APP_PORT') || 3500;
