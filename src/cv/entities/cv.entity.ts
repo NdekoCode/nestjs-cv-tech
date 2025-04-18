@@ -2,32 +2,31 @@ import { TimestampEntity } from 'generics/entities/timestamp.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('cv')
-export class CvEntity extends TimestampEntity{
+export class CvEntity extends TimestampEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('varchar', { length: 200 })
   name: string;
 
   @Column('varchar', { length: 100 })
   firstName: string;
-  @Column( { type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100 })
   lastName: string;
 
-  @Column('varchar', {
+  @Column( {
     unique: true,
-    
   })
   email: string;
 
   @Column({
     type: 'int',
-    update:false
+    update: false,
   })
   age: number;
 
-  @Column('int',{
-    nullable:true
+  @Column('int', {
+    nullable: true,
   })
   cin: number;
 
@@ -35,7 +34,9 @@ export class CvEntity extends TimestampEntity{
   job: string;
 
   @Column({
-    nullable:true
+    nullable: true,
   })
   path: string;
+  @Column()
+  description: string;
 }
