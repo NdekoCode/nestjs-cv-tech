@@ -79,7 +79,8 @@ export class CvService {
     if (!findCv) {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
     }
-    return await this.cvRepository.save(findCv); // On enregistre les nouvelles donnees du CV, typeORM va se charger de faire l'UPDATE
+    const updateCV = {findCv,...cv}
+    return await this.cvRepository.save(updateCV); // On enregistre les nouvelles donnees du CV, typeORM va se charger de faire l'UPDATE
   }
 
   /**
