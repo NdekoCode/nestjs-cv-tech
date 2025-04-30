@@ -7,6 +7,10 @@ export class AddCvDTO {
   @IsString()
   @IsNotEmpty()
   name: string;
+  
+  @IsString()
+  @IsNotEmpty()
+  description: string;
 
   @MaxLength(100)
   @IsNotEmpty()
