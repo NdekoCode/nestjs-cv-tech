@@ -71,11 +71,10 @@ export class CvService {
    * @throws NotFoundException if the CV with the given ID is not found.
    */
   async updateCv(id: number, cv: Partial<UpdateCvDTO>): Promise<CvEntity> {
-    /* const findCv = await this.cvRepository.preload({
+    const findCv = await this.cvRepository.preload({
       id,
       ...cv,
-    }); */ // Il va aller chercher l'objet qui a cet ID, et il va précharger cet objet et il va remplacer les anciennes valeur de cette objet par les nouvelles valeurs dans `cv`
-    const findCv = await this.getSingleCv(id);
+    }); 
     if (!findCv) {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
     }
