@@ -31,6 +31,12 @@ export class CvService {
     return await this.cvRepository.find();
   }
 
+  async seedCvs(cvs:AddCvDTO[]){
+    cvs.forEach(async(cv)=>{
+      const newCV = await this.addCv(cv);
+      console.log("Add new CV in the DATABASE",newCV);
+    })
+  }
   /**
    * Retrieves a single CV entity from the database by its ID.
    * @param id - The ID of the CV to retrieve.

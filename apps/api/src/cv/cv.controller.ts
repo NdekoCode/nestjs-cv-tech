@@ -1,3 +1,5 @@
+import { cvs } from 'src/data/constants';
+
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 
 import { CvService } from './cv.service';
@@ -23,6 +25,11 @@ export class CvController {
   @Get()
   async getCvs(): Promise<CvEntity[]> {
     return await this.cvService.getCvs();
+  }
+
+  @Post('seed')
+  async seedCv(){
+    return await this.cvService.seedCvs(cvs) 
   }
 
 
@@ -100,4 +107,5 @@ export class CvController {
   async recoverCv(@Param('id', ParseIntPipe) id: number) {
     return await this.cvService.recoverCv(id);
   }
+  
 }
