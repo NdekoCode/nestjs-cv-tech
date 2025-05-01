@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CvModule } from './cv/cv.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { CvModule } from './cv/cv.module';
       entities: ['dist/**/*.entity.{ts,js}'], // Array of entities to load(), les classes qui représentent les tables de la base de données, dans notre configuration on dit que: on charge tous les fichiers .entity.ts ou .entity.js qui se trouvent dans le dossier dist ou entities et on les considère comme nos entities ou classes qui représentent les tables de la base de données
       synchronize: process.env.NODE_ENV === 'development' // For development only, not for production, permet que toute modification sur les models(Au niveau des entités TypeORM) soit directement répercutée sur la base de données.
     }),
-    CvModule
+    CvModule,
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
