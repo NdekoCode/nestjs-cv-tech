@@ -5,8 +5,8 @@ import { SearchIcon } from 'lucide-react';
 import * as React from 'react';
 
 import {
-    Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle
-} from '@/components/ui/dialog';
+  Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle
+} from '@/core/components/ui/dialog';
 import { cn } from '@/core/lib/utils';
 
 function Command({

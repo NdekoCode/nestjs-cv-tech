@@ -4,15 +4,17 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { PanelLeftIcon } from 'lucide-react';
 import * as React from 'react';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
+import { Button } from '@/core/components/ui/button';
+import { Input } from '@/core/components/ui/input';
+import { Separator } from '@/core/components/ui/separator';
 import {
-    Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle
-} from '@/components/ui/sheet';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { useIsMobile } from '@/core/hooks/use-mobile';
+  Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle
+} from '@/core/components/ui/sheet';
+import { Skeleton } from '@/core/components/ui/skeleton';
+import {
+  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger
+} from '@/core/components/ui/tooltip';
+import { useIsMobile } from '@/core/hooks/common';
 import { cn } from '@/core/lib/utils';
 import { Slot } from '@radix-ui/react-slot';
 
