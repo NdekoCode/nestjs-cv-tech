@@ -1,16 +1,34 @@
 import Link from 'next/link';
 
 import { api } from '@/core/services';
+import { ApiErrorService } from '@/core/services/clients/api-error.service';
+import { APIService } from '@/core/services/clients/api.service';
 import { CvArraySchema, TCv } from '@/core/types/schemas/cv.schema';
 
+async function test() {
+  try {
+    const apiService = new APIService();
+    await apiService.get('https://jsonplaceholder.typicode.com/todo')
+  } catch (error) {
+    const apiError = ApiErrorService.fromAxiosError(error);
+    console.log("MESSAGE========> ",apiError.message);
+    console.log("Status Code ====>",apiError.statusCode);
+  }
+}
 const getAllCvs = async () => {
   const res = await api.get<Promise<{ data: TCv[] }>>("/cv");
   const data = CvArraySchema.parse(res.data);
-  console.log(data);
   return data;
 };
 const page = async () => {
   const data = await getAllCvs();
+  // const error = new ApiErrorService("L'utilisateur est introuvable",404, "USER_NOT_FOUND",{userId:42});
+  // console.log(error.message);
+  // console.log("🚀 ~ page ~ error:", error)
+  // console.log(error.errorCode)
+  // console.log(JSON.stringify(error.details))
+  // console.log(error.timestamp.toLocaleDateString())
+  await test()
   return (
     <div>
       <>

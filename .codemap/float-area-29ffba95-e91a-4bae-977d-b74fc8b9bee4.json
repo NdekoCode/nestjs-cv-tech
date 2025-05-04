@@ -1,0 +1,261 @@
+{
+    "type": "float-area",
+    "_widgets": [
+        [
+            {
+                "widget": {
+                    "constructionOptions": {
+                        "factoryId": "code-editor-opener",
+                        "options": {
+                            "kind": "navigatable",
+                            "uri": "apps/web/app/cv/page.tsx",
+                            "floatAreaId": "29ffba95-e91a-4bae-977d-b74fc8b9bee4"
+                        }
+                    },
+                    "innerWidgetState": {
+                        "cursorState": [
+                            {
+                                "inSelectionMode": false,
+                                "selectionStart": {
+                                    "lineNumber": 15,
+                                    "column": 26
+                                },
+                                "position": {
+                                    "lineNumber": 15,
+                                    "column": 26
+                                }
+                            }
+                        ],
+                        "viewState": {
+                            "scrollLeft": 0,
+                            "firstPosition": {
+                                "lineNumber": 1,
+                                "column": 1
+                            },
+                            "firstPositionDeltaTop": 0
+                        },
+                        "contributionsState": {
+                            "editor.contrib.folding": {
+                                "lineCount": 80,
+                                "provider": "syntax",
+                                "foldedImports": false
+                            },
+                            "editor.contrib.wordHighlighter": false
+                        }
+                    }
+                },
+                "width": 600,
+                "height": 887.890625,
+                "spacing": 0
+            }
+        ],
+        [
+            {
+                "widget": {
+                    "constructionOptions": {
+                        "factoryId": "code-editor-opener",
+                        "options": {
+                            "kind": "navigatable",
+                            "uri": "apps/web/core/services/clients/api-error.service.ts",
+                            "floatAreaId": "29ffba95-e91a-4bae-977d-b74fc8b9bee4"
+                        }
+                    },
+                    "innerWidgetState": {
+                        "cursorState": [
+                            {
+                                "inSelectionMode": false,
+                                "selectionStart": {
+                                    "lineNumber": 25,
+                                    "column": 12
+                                },
+                                "position": {
+                                    "lineNumber": 25,
+                                    "column": 12
+                                }
+                            }
+                        ],
+                        "viewState": {
+                            "scrollLeft": 0,
+                            "firstPosition": {
+                                "lineNumber": 1,
+                                "column": 1
+                            },
+                            "firstPositionDeltaTop": 0
+                        },
+                        "contributionsState": {
+                            "editor.contrib.folding": {
+                                "lineCount": 47,
+                                "provider": "syntax",
+                                "foldedImports": false
+                            },
+                            "editor.contrib.wordHighlighter": false
+                        }
+                    }
+                },
+                "width": 600,
+                "height": 701.953125,
+                "spacing": 0
+            }
+        ]
+    ],
+    "_widths": [
+        600,
+        600
+    ],
+    "_modelData": {
+        "connections": [
+            {
+                "startWord": {
+                    "uri": "apps/web/app/cv/page.tsx",
+                    "lineNumber": 14,
+                    "startColumn": 22,
+                    "endLineNumber": 14,
+                    "endColumn": 31,
+                    "word": "getAllCvs",
+                    "x": 244,
+                    "y": 295,
+                    "hide": false,
+                    "height": 18,
+                    "width": 65
+                },
+                "endWord": {
+                    "uri": "apps/web/app/cv/page.tsx",
+                    "lineNumber": 7,
+                    "startColumn": 7,
+                    "endLineNumber": 7,
+                    "endColumn": 16,
+                    "word": "",
+                    "x": 135,
+                    "y": 169,
+                    "hide": false,
+                    "height": 18,
+                    "width": 65
+                },
+                "id": "1eb97e29-7e9c-41b1-826a-b11f07f91d9a",
+                "startAnchor": {
+                    "x": 268.7142857142857,
+                    "y": 295
+                },
+                "endAnchor": {
+                    "x": 175.28571428571428,
+                    "y": 187
+                },
+                "startControl": {
+                    "x": 268.7142857142857,
+                    "y": 270.7989471130137
+                },
+                "endControl": {
+                    "x": 175.28571428571428,
+                    "y": 220.27644771960615
+                },
+                "arrow": {
+                    "angle": -1.5707963267948966,
+                    "x": 175.28571428571428,
+                    "y": 199
+                }
+            },
+            {
+                "startWord": {
+                    "uri": "apps/web/app/cv/page.tsx",
+                    "lineNumber": 15,
+                    "startColumn": 21,
+                    "endLineNumber": 15,
+                    "endColumn": 36,
+                    "word": "ApiErrorService",
+                    "x": 237,
+                    "y": 313,
+                    "hide": false,
+                    "height": 18,
+                    "width": 108
+                },
+                "endWord": {
+                    "uri": "apps/web/core/services/clients/api-error.service.ts",
+                    "lineNumber": 6,
+                    "startColumn": 16,
+                    "endLineNumber": 6,
+                    "endColumn": 31,
+                    "word": "",
+                    "x": 856,
+                    "y": 151,
+                    "hide": false,
+                    "height": 18,
+                    "width": 109
+                },
+                "id": "03c6051f-7648-4735-aa6b-da43bc28d8ed",
+                "startAnchor": {
+                    "x": 325.4166666666667,
+                    "y": 313
+                },
+                "endAnchor": {
+                    "x": 876.0833333333334,
+                    "y": 169
+                },
+                "startControl": {
+                    "x": 325.4166666666667,
+                    "y": 304.90419159887864
+                },
+                "endControl": {
+                    "x": 876.0833333333334,
+                    "y": 180.13173655154188
+                },
+                "arrow": {
+                    "angle": -1.5707963267948966,
+                    "x": 876.0833333333334,
+                    "y": 181
+                }
+            },
+            {
+                "startWord": {
+                    "uri": "apps/web/app/cv/page.tsx",
+                    "lineNumber": 18,
+                    "startColumn": 21,
+                    "endLineNumber": 18,
+                    "endColumn": 30,
+                    "word": "errorCode",
+                    "x": 237,
+                    "y": 367,
+                    "hide": false,
+                    "height": 18,
+                    "width": 65
+                },
+                "endWord": {
+                    "uri": "apps/web/core/services/clients/api-error.service.ts",
+                    "lineNumber": 9,
+                    "startColumn": 21,
+                    "endLineNumber": 9,
+                    "endColumn": 30,
+                    "word": "",
+                    "x": 893,
+                    "y": 205,
+                    "hide": false,
+                    "height": 18,
+                    "width": 65
+                },
+                "id": "69803270-a102-48af-89bf-4d6831a44635",
+                "startAnchor": {
+                    "x": 302,
+                    "y": 367.9740853658537
+                },
+                "endAnchor": {
+                    "x": 893,
+                    "y": 222.02591463414635
+                },
+                "startControl": {
+                    "x": 333.06671804067963,
+                    "y": 367.9740853658537
+                },
+                "endControl": {
+                    "x": 850.2832626940655,
+                    "y": 222.02591463414635
+                },
+                "arrow": {
+                    "angle": 0,
+                    "x": 881,
+                    "y": 222.02591463414635
+                }
+            }
+        ],
+        "annotations": [],
+        "highlights": []
+    }
+}

@@ -1,2 +1,2 @@
-export * from './api/api-client'
-export * from './api/axios-client'
+export * from './clients/api-client'
+export * from './clients/axios-client'
