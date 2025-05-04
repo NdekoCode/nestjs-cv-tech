@@ -1,30 +1,30 @@
-import fs from 'fs';
-import path from 'path';
+import { existsSync } from 'fs';
+import { appendFile, mkdir } from 'fs/promises';
+import { dirname, join, resolve } from 'path';
 
 export enum LogLevel {
-  DEBUG = "DEBUG",
-  INFO = "INFO",
-  WARN = "WARN",
-  ERROR = "ERROR",
-  FATAL = "FATAL",
+	DEBUG = 'DEBUG',
+	INFO = 'INFO',
+	WARN = 'WARN',
+	ERROR = 'ERROR',
+	FATAL = 'FATAL'
 }
 
 export interface LogEntry {
-  timestamp: string;
-  level: LogLevel;
-  message: string;
-  details?: any;
-  context?: string;
+	timestamp: string;
+	level: LogLevel;
+	message: string;
+	details?: any;
+	context?: string;
 }
 
 export interface LoggerConfig {
-  logDir?: string;
-  console?: boolean;
-  maxFileSize?: number; // maximum file size in bytes
-  dateFormat?: "daily" | "hourly"; // file rotation format
-  environment?: "development" | "production" | "test";
+	logDir?: string;
+	console?: boolean;
+	maxFileSize?: number; // maximum file size in bytes
+	dateFormat?: 'daily' | 'hourly'; // file rotation format
+	environment?: 'development' | 'production' | 'test';
 }
-
 
 export class Logger {
 	private config: Required<LoggerConfig>;
@@ -160,11 +160,11 @@ export class Logger {
 	/**
 	 * Append a log entry to a file
 	 */
-	private appendToLogFile(filename: string, logEntry: LogEntry): void {
-		const filePath = path.join(this.config.logDir, filename);
+	private async appendToLogFile(filename: string, logEntry: LogEntry) {
+		const filePath = join(this.config.logDir, filename);
 		const logString = JSON.stringify(logEntry, null, 2) + '\n';
 
-		fs.appendFileSync(filePath, logString, { encoding: 'utf8' });
+		await appendFile(filePath, logString, { encoding: 'utf8' });
 	}
 
 	/**
@@ -206,7 +206,7 @@ export class Logger {
 	 * Get the absolute path for a relative directory to the project root
 	 * Compatible with the development and production environments of Next.js
 	 */
-	public static getAbsolutePath(relativePath: string): string {
+	public static async getAbsolutePath(relativePath: string): Promise<string> {
 		if (!Logger.isServer()) {
 			throw new Error('This function can only be called on the server');
 		}
@@ -216,38 +216,38 @@ export class Logger {
 
 		// In development, the process runs at the project root
 		// In production with Next.js, the process generally runs in .next/server/
-		if (Logger.isProjectRootDir(process.cwd())) {
+		if (await Logger.isProjectRootDir(process.cwd())) {
 			// In production environment
-			rootDir = path.resolve(process.cwd(), '../../');
+			rootDir = resolve(process.cwd(), '../../');
 		} else {
 			// In development environment
 			rootDir = process.cwd();
 		}
 
-		return path.resolve(rootDir, relativePath);
+		return resolve(rootDir, relativePath);
 	}
 
 	private static isProjectRootDir(dir: string): boolean {
 		return (
-			fs.existsSync(path.join(dir, 'package.json')) ||
-			fs.existsSync(path.join(dir, 'next.config.js')) ||
-			fs.existsSync(path.join(dir, '.next'))
+			existsSync(join(dir, 'package.json')) ||
+			existsSync(join(dir, 'next.config.js')) ||
+			existsSync(join(dir, '.next'))
 		);
 	}
 
 	/**
 	 * Create a directory recursively if it does not exist
 	 */
-	public static ensureDirectoryExists(dirPath: string): void {
+	public static async ensureDirectoryExists(dirPath: string): Promise<void> {
 		if (!Logger.isServer()) {
 			return; // Nothing to do on the client
 		}
 
-		const absolutePath = Logger.getAbsolutePath(dirPath);
+		const absolutePath = await Logger.getAbsolutePath(dirPath);
 
-		if (!fs.existsSync(absolutePath)) {
+		if (!existsSync(absolutePath)) {
 			try {
-				fs.mkdirSync(absolutePath, { recursive: true });
+				await mkdir(absolutePath, { recursive: true });
 			} catch (err) {
 				console.error('[FsUtils] Failed to create directory', absolutePath, err);
 			}
@@ -257,25 +257,29 @@ export class Logger {
 	/**
 	 * Append content to an existing file or create it if it does not exist
 	 */
-	public static appendToFile(filePath: string, content: string, encoding: BufferEncoding = 'utf8'): void {
+	public static async appendToFile(
+		filePath: string,
+		content: string,
+		encoding: BufferEncoding = 'utf8'
+	): Promise<void> {
 		if (!Logger.isServer()) {
 			return; // Nothing to do on the client
 		}
 
-		const absolutePath = Logger.getAbsolutePath(filePath);
-		const dirPath = path.dirname(absolutePath);
+		const absolutePath = await Logger.getAbsolutePath(filePath);
+		const dirPath = dirname(absolutePath);
 
-		Logger.ensureDirectoryExists(dirPath);
-		fs.appendFileSync(absolutePath, content, { encoding });
+		await Logger.ensureDirectoryExists(dirPath);
+		await appendFile(absolutePath, content, { encoding });
 	}
 	/**
 	 * Ensure that the log directory exists
 	 */
-	private ensureLogDirExists(): void {
+	private async ensureLogDirExists(): Promise<void> {
 		if (Logger.isServer()) {
 			try {
-				if (!fs.existsSync(this.config.logDir)) {
-					fs.mkdirSync(this.config.logDir, { recursive: true });
+				if (!existsSync(this.config.logDir)) {
+					await mkdir(this.config.logDir, { recursive: true });
 				}
 			} catch (error) {
 				console.error(`Failed to create log directory: ${this.config.logDir}`, error);

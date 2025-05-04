@@ -8,7 +8,7 @@ import { CvArraySchema, TCv } from '@/core/types/schemas/cv.schema';
 async function test() {
   try {
     const apiService = new APIService();
-    await apiService.get('https://jsonplaceholder.typicode.com/todo')
+    await apiService.post('https://jsonplaceholder.typicode.com/todos')
   } catch (error) {
     const apiError = ApiErrorService.fromAxiosError(error);
     console.log("MESSAGE========> ",apiError.message);
