@@ -1,3 +1,4 @@
+import slugify from 'slugify';
 import { AddCvDTO } from 'src/cv/dto/add-cv.dto';
 
 export const cvs: AddCvDTO[] = [
@@ -10,7 +11,8 @@ export const cvs: AddCvDTO[] = [
     cin: 12345678,
     job: 'Développeur Web',
     path: '/uploads/user-1.png',
-    description: 'Passionné par les technologies web, Jean développe des applications modernes depuis 10 ans.'
+    description:
+      'Passionné par les technologies web, Jean développe des applications modernes depuis 10 ans.',
   },
   {
     name: 'Marie Curie',
@@ -21,7 +23,8 @@ export const cvs: AddCvDTO[] = [
     cin: 87654321,
     job: 'Chercheuse',
     path: '/uploads/user-2.png',
-    description: 'Experte en physique appliquée, elle mène des projets innovants en recherche scientifique.'
+    description:
+      'Experte en physique appliquée, elle mène des projets innovants en recherche scientifique.',
   },
   {
     name: 'Ali Ben Salah',
@@ -32,7 +35,8 @@ export const cvs: AddCvDTO[] = [
     cin: 33221100,
     job: 'Data Scientist',
     path: '/uploads/user-3.png',
-    description: 'Spécialisé en IA et machine learning, Ali extrait de la valeur des données complexes.'
+    description:
+      'Spécialisé en IA et machine learning, Ali extrait de la valeur des données complexes.',
   },
   {
     name: 'Lina Mahfoudh',
@@ -43,7 +47,8 @@ export const cvs: AddCvDTO[] = [
     cin: 99887766,
     job: 'UX Designer',
     path: '/uploads/user-4.png',
-    description: 'Lina conçoit des expériences utilisateurs intuitives et centrées sur les besoins réels.'
+    description:
+      'Lina conçoit des expériences utilisateurs intuitives et centrées sur les besoins réels.',
   },
   {
     name: 'Youssef Khalil',
@@ -54,7 +59,8 @@ export const cvs: AddCvDTO[] = [
     cin: 44556677,
     job: 'Chef de projet',
     path: '/uploads/user-5.png',
-    description: 'Youssef pilote les projets digitaux avec rigueur et leadership, de l’idée au déploiement.'
+    description:
+      'Youssef pilote les projets digitaux avec rigueur et leadership, de l’idée au déploiement.',
   },
   {
     name: 'Fatima Zahra',
@@ -65,7 +71,8 @@ export const cvs: AddCvDTO[] = [
     cin: 11223344,
     job: 'Développeuse Frontend',
     path: '/uploads/user-6.png',
-    description: 'Fatima crée des interfaces performantes et accessibles avec React et TypeScript.'
+    description:
+      'Fatima crée des interfaces performantes et accessibles avec React et TypeScript.',
   },
   {
     name: 'Omar Laaroussi',
@@ -76,7 +83,8 @@ export const cvs: AddCvDTO[] = [
     cin: 66554433,
     job: 'Architecte logiciel',
     path: '/uploads/user-7.png',
-    description: 'Omar conçoit l’architecture d’applications scalables pour grandes entreprises.'
+    description:
+      'Omar conçoit l’architecture d’applications scalables pour grandes entreprises.',
   },
   {
     name: 'Nora Chikhi',
@@ -87,7 +95,8 @@ export const cvs: AddCvDTO[] = [
     cin: 22334455,
     job: 'Test Lead',
     path: '/uploads/user-8.png',
-    description: 'Responsable QA, Nora garantit la qualité logicielle avec des stratégies de test avancées.'
+    description:
+      'Responsable QA, Nora garantit la qualité logicielle avec des stratégies de test avancées.',
   },
   {
     name: 'Adam Meziane',
@@ -98,7 +107,8 @@ export const cvs: AddCvDTO[] = [
     cin: 88990077,
     job: 'Ingénieur DevOps',
     path: '/uploads/user-9.png',
-    description: 'Expert CI/CD, Adam optimise les pipelines de livraison continue et déploiement.'
+    description:
+      'Expert CI/CD, Adam optimise les pipelines de livraison continue et déploiement.',
   },
   {
     name: 'Sarah Bouchra',
@@ -109,7 +119,8 @@ export const cvs: AddCvDTO[] = [
     cin: 55667788,
     job: 'Product Owner',
     path: '/uploads/user-10.png',
-    description: 'Sarah traduit les besoins métiers en user stories et pilote la roadmap produit.'
+    description:
+      'Sarah traduit les besoins métiers en user stories et pilote la roadmap produit.',
   },
   {
     name: 'Khaled Jaziri',
@@ -120,7 +131,8 @@ export const cvs: AddCvDTO[] = [
     cin: 11002233,
     job: 'Scrum Master',
     path: '/uploads/user-11.png',
-    description: 'Facilitateur Agile, Khaled accompagne les équipes vers l’excellence opérationnelle.'
+    description:
+      'Facilitateur Agile, Khaled accompagne les équipes vers l’excellence opérationnelle.',
   },
   {
     name: 'Salma Riahi',
@@ -131,7 +143,8 @@ export const cvs: AddCvDTO[] = [
     cin: 33445566,
     job: 'Consultante IT',
     path: '/uploads/user-12.png',
-    description: 'Salma conseille les entreprises sur la transformation numérique et l’intégration IT.'
+    description:
+      'Salma conseille les entreprises sur la transformation numérique et l’intégration IT.',
   },
   {
     name: 'Mohamed Amin',
@@ -142,7 +155,8 @@ export const cvs: AddCvDTO[] = [
     cin: 77889900,
     job: 'Ingénieur réseau',
     path: '/uploads/user-13.png',
-    description: 'Spécialiste infrastructure, Mohamed sécurise et optimise les architectures réseau.'
+    description:
+      'Spécialiste infrastructure, Mohamed sécurise et optimise les architectures réseau.',
   },
   {
     name: 'Yasmina Toumi',
@@ -153,7 +167,8 @@ export const cvs: AddCvDTO[] = [
     cin: 99112233,
     job: 'Business Analyst',
     path: '/uploads/user-14.png',
-    description: 'Yasmina analyse les besoins métiers et facilite la communication entre IT et gestion.'
+    description:
+      'Yasmina analyse les besoins métiers et facilite la communication entre IT et gestion.',
   },
   {
     name: 'Rachid El Idrissi',
@@ -164,7 +179,8 @@ export const cvs: AddCvDTO[] = [
     cin: 12344321,
     job: 'Administrateur systèmes',
     path: '/uploads/user-15.png',
-    description: 'Rachid administre des systèmes Linux et Windows en assurant la haute disponibilité.'
+    description:
+      'Rachid administre des systèmes Linux et Windows en assurant la haute disponibilité.',
   },
   {
     name: 'Amina Belkacem',
@@ -175,7 +191,8 @@ export const cvs: AddCvDTO[] = [
     cin: 22334411,
     job: 'Ingénieure QA',
     path: '/uploads/user-16.png',
-    description: 'Amina élabore des stratégies de test automatisé pour garantir des livrables fiables.'
+    description:
+      'Amina élabore des stratégies de test automatisé pour garantir des livrables fiables.',
   },
   {
     name: 'Tarek Zouari',
@@ -186,7 +203,8 @@ export const cvs: AddCvDTO[] = [
     cin: 33221199,
     job: 'Formateur technique',
     path: '/uploads/user-17.png',
-    description: 'Tarek forme les développeurs sur les technologies JavaScript modernes et DevOps.'
+    description:
+      'Tarek forme les développeurs sur les technologies JavaScript modernes et DevOps.',
   },
   {
     name: 'Imen Ben Rejeb',
@@ -197,7 +215,8 @@ export const cvs: AddCvDTO[] = [
     cin: 44556611,
     job: 'Community Manager',
     path: '/uploads/user-18.png',
-    description: 'Imen anime les communautés digitales avec une forte orientation branding et contenu.'
+    description:
+      'Imen anime les communautés digitales avec une forte orientation branding et contenu.',
   },
   {
     name: 'Houssem Dali',
@@ -208,7 +227,8 @@ export const cvs: AddCvDTO[] = [
     cin: 66778899,
     job: 'CTO',
     path: '/uploads/user-19.png',
-    description: 'Leader tech, Houssem définit la vision technique et encadre les équipes d’ingénierie.'
+    description:
+      'Leader tech, Houssem définit la vision technique et encadre les équipes d’ingénierie.',
   },
   {
     name: 'Nadia Fekih',
@@ -219,6 +239,14 @@ export const cvs: AddCvDTO[] = [
     cin: 55443322,
     job: 'Rédactrice technique',
     path: '/uploads/user-20.png',
-    description: 'Nadia rédige des documentations techniques claires et pédagogiques pour les utilisateurs.'
-  }
+    description:
+      'Nadia rédige des documentations techniques claires et pédagogiques pour les utilisateurs.',
+  },
 ];
+export const users = cvs.map((cv) => ({
+  username: slugify(cv.firstName, { lower: true }),
+  email: cv.email,
+  password: slugify(cv.name, { lower: true }),
+  firstName: cv.firstName,
+  lastName: cv.lastName,
+}));

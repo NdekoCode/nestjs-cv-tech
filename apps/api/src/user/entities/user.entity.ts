@@ -14,13 +14,13 @@ export class UserEntity extends TimestampEntity {
 
   @Column({
     type: 'varchar',
-    length: 100,
+    length: 50,
   })
   firstName: string;
 
   @Column({
     type: 'varchar',
-    length: 100,
+    length: 50,
   })
   lastName: string;
 

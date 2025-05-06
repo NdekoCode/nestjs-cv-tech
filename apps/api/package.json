@@ -26,6 +26,7 @@
     "@nest-middlewares/cors": "^10.0.0",
     "@nest-middlewares/helmet": "^10.0.0",
     "@nest-middlewares/morgan": "^10.0.0",
+    "slugify": "^1.6.6",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.0",
