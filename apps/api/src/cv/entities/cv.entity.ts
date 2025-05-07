@@ -1,5 +1,6 @@
 import { TimestampEntity } from 'generics/entities/timestamp.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('cv')
 export class CvEntity extends TimestampEntity {
@@ -14,7 +15,7 @@ export class CvEntity extends TimestampEntity {
   @Column({ type: 'varchar', length: 100 })
   lastName: string;
 
-  @Column( {
+  @Column({
     unique: true,
   })
   email: string;
@@ -39,4 +40,11 @@ export class CvEntity extends TimestampEntity {
   path: string;
   @Column()
   description: string;
+
+  @ManyToOne((type) => UserEntity, (user) => user.cvs, {
+    cascade: ['remove', 'recover', 'insert'], // En supprimant un utilisateur ses cv aussi seront supprimer, en modifiant un utilisateur cela sera aussi visible sur les cv.
+    eager: true, // Si vous demander un CV, il viendra avec les donnees de l'utilisateur
+    nullable: true,
+  })
+  user: UserEntity;
 }

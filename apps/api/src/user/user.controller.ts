@@ -26,7 +26,6 @@ export class UserController {
   @Post('seed')
   async seedUsers() {
     users.forEach(async (user) => {
-      console.log('USER', user);
       await this.userService.create(user);
       console.log('New user created');
     });

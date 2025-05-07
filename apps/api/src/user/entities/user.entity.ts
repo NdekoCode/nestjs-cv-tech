@@ -1,5 +1,6 @@
 import { TimestampEntity } from 'generics/entities/timestamp.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { CvEntity } from 'src/cv/entities/cv.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 export class UserEntity extends TimestampEntity {
@@ -35,4 +36,8 @@ export class UserEntity extends TimestampEntity {
     type: 'varchar',
   })
   password: string;
+  @OneToMany((type) => CvEntity, (cv) => cv.user, {
+    nullable: true,
+  })
+  cvs: CvEntity[];
 }
