@@ -2,6 +2,8 @@ import { TimestampEntity } from 'generics/entities/timestamp.entity';
 import { CvEntity } from 'src/cv/entities/cv.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
+import { EUserRoles } from '../../../types/enums/user-role.enum';
+
 @Entity('users')
 export class UserEntity extends TimestampEntity {
   @PrimaryGeneratedColumn()
@@ -35,7 +37,25 @@ export class UserEntity extends TimestampEntity {
   @Column({
     type: 'varchar',
   })
+  @Column({
+    type: 'varchar',
+    default: 10,
+  })
+  salt: number;
+
+  @Column({
+    enum: EUserRoles,
+    type: 'enum',
+    default: EUserRoles.USER,
+  })
+  role: string;
+
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
   password: string;
+
   @OneToMany((type) => CvEntity, (cv) => cv.user, {
     nullable: true,
   })

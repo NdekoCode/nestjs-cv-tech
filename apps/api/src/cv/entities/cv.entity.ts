@@ -41,8 +41,16 @@ export class CvEntity extends TimestampEntity {
   @Column()
   description: string;
 
+  // Ici on dit que on a plusieurs CV pour un seul utilisateur
   @ManyToOne((type) => UserEntity, (user) => user.cvs, {
     cascade: ['remove', 'recover', 'insert'], // En supprimant un utilisateur ses cv aussi seront supprimer, en modifiant un utilisateur cela sera aussi visible sur les cv.
+    /**
+     * Donc:
+     * -  Quand tu ajoutes un utilisateur avec des CVs inclus, les CVs seront aussi automatiquement insérés sans faire un save() séparé.
+     * - 'remove' → Quand tu supprimes un utilisateur, ses CVs seront aussi supprimés.
+     * - 'recover' → Si tu fais un soft-delete, tu pourras restaurer l’utilisateur avec ses CVs.
+     */
+
     eager: true, // Si vous demander un CV, il viendra avec les donnees de l'utilisateur
     nullable: true,
   })
