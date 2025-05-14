@@ -18,6 +18,18 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
   async create(createUserDto: CreateUserDto) {
+    let checkIfUserExist = false;
+    if (createUserDto.email) {
+      checkIfUserExist = !!(await this.userRepository.findOne({
+        where: { email: createUserDto.email },
+      }));
+    }
+    if (checkIfUserExist) {
+      throw new ConflictException({
+        statusCode: 409,
+        message: 'User already exist',
+      });
+    }
     const newUser = this.userRepository.create(createUserDto);
     return await this.userRepository.save(newUser);
   }
