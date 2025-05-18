@@ -25,11 +25,9 @@ export class AuthService {
     }
 
     let checkIfUserExist = false;
-    if (userData.email) {
-      checkIfUserExist = !!(await this.userRepository.findOne({
-        where: { email: userData.email },
-      }));
-    }
+    checkIfUserExist = !!(await this.userRepository.findOne({
+      where: { email: userData.email },
+    }));
 
     if (checkIfUserExist) {
       throw new ConflictException({
