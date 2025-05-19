@@ -7,19 +7,19 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { UserEntity } from '../user/entities/user.entity';
-import { UserService } from '../user/user.service';
 import { LoginDTO } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private readonly jwtService: JwtService,
   ) {}
   async signUpUser(userData: CreateUserDto): Promise<Partial<UserEntity>> {
     if (!userData.username || !userData.email || !userData.password) {
@@ -75,11 +75,16 @@ export class AuthService {
     // Si oui verifie est-ce que le mot de passe est correct ou pas ?
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch && hashPassword === user.password) {
-      delete user.password;
-      delete user.salt;
+      const payload = {
+        ...(user.username && { username: user.username }),
+        email: user.email,
+        role: user.role,
+      };
+      const access_token = this.jwtService.sign(payload);
       return {
         message: 'You are authenticated',
-        user: user,
+        user: payload,
+        access_token,
       };
     }
 
