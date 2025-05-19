@@ -10,6 +10,7 @@ import { UserModule } from '../user/user.module';
 import { UserService } from '../user/user.service';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 dotenv.config();
 @Module({
@@ -20,13 +21,14 @@ dotenv.config();
       defaultStrategy: 'jwt',
     }),
     JwtModule.register({
+      global: true,
       secret: process.env.SECRET,
       signOptions: {
         expiresIn: 3600, // Ca veut dire que il va expirer dans une heure
       },
     }),
   ],
-  providers: [AuthService, UserService],
+  providers: [AuthService, UserService, JwtStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

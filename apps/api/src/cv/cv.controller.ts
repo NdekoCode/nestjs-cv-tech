@@ -1,7 +1,18 @@
 import { cvs } from 'src/data/constants';
 
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CvService } from './cv.service';
 import { AddCvDTO } from './dto/add-cv.dto';
 import { UpdateCvDTO } from './dto/update-cv.dto';
@@ -22,16 +33,16 @@ export class CvController {
    *
    * @returns {Promise<CvEntity[]>} An array of CvEntity objects representing the CVs.
    */
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getCvs(): Promise<CvEntity[]> {
     return await this.cvService.getCvs();
   }
 
   @Post('seed')
-  async seedCv(){
-    return await this.cvService.seedCvs(cvs) 
+  async seedCv() {
+    return await this.cvService.seedCvs(cvs);
   }
-
 
   /**
    * Adds a new CV.
@@ -39,16 +50,19 @@ export class CvController {
    * @param {AddCvDTO} cv The CV data to add.
    * @returns {Promise<CvEntity>} The CvEntity object representing the newly added CV.
    */
+  @UseGuards(JwtAuthGuard)
   @Post()
   async addCv(@Body() cv: AddCvDTO): Promise<CvEntity> {
     return await this.cvService.addCv(cv);
   }
 
-
   @Get('stats/:max/:min')
-  async getStatsCvNumberByAge(@Param('min',ParseIntPipe) min:number=0, @Param('max',ParseIntPipe) max:number=100): Promise<CvEntity[]> {
-    console.log("Params",min,max);
-    return this.cvService.statsCvNumberByAge(max,min);
+  async getStatsCvNumberByAge(
+    @Param('min', ParseIntPipe) min: number = 0,
+    @Param('max', ParseIntPipe) max: number = 100,
+  ): Promise<CvEntity[]> {
+    console.log('Params', min, max);
+    return this.cvService.statsCvNumberByAge(max, min);
   }
   /**
    * Retrieves a single CV by its ID.
@@ -67,6 +81,7 @@ export class CvController {
    * @param {number} id The ID of the CV to update.
    * @returns {Promise<CvEntity>} The CvEntity object representing the updated CV.
    */
+  @UseGuards(JwtAuthGuard)
   @Patch(':id') // Va juste modifier une partie d'une entité   alors que PUT modifie toute l'entité
   async updateCv(
     @Body() cv: UpdateCvDTO,
@@ -81,6 +96,7 @@ export class CvController {
    * @param {number} id The ID of the CV to remove.
    * @returns {Promise<void>} A promise that resolves when the CV is removed.
    */
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async removeCv(@Param('id', ParseIntPipe) id: number) {
     return await this.cvService.removeCv(id);
@@ -107,5 +123,4 @@ export class CvController {
   async recoverCv(@Param('id', ParseIntPipe) id: number) {
     return await this.cvService.recoverCv(id);
   }
-  
 }

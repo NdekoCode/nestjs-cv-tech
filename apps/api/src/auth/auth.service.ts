@@ -5,7 +5,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
-  NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -67,7 +67,7 @@ export class AuthService {
     const user = await qb.getOne();
     if (!user) {
       // Sinon je denclenche une erreur
-      throw new NotFoundException('email, username or password invalid');
+      throw new UnauthorizedException('email, username or password invalid');
     }
 
     console.log(qb.getSql());
@@ -80,7 +80,7 @@ export class AuthService {
         email: user.email,
         role: user.role,
       };
-      const access_token = this.jwtService.sign(payload);
+      const access_token = await this.jwtService.signAsync(payload);
       return {
         message: 'You are authenticated',
         user: payload,
@@ -89,6 +89,6 @@ export class AuthService {
     }
 
     // Sinon je denclenche une erreur
-    throw new NotFoundException('email, username or password invalid');
+    throw new UnauthorizedException('email, username or password invalid');
   }
 }
