@@ -28,14 +28,14 @@ export class CvService {
    */
   async getCvs(): Promise<CvEntity[]> {
     // Je veux avoir une promesse d'avoir des CV-Entity
-    return await this.cvRepository.find();
+    return await this.cvRepository.find({ relations: ['user'] });
   }
 
-  async seedCvs(cvs:AddCvDTO[]){
-    cvs.forEach(async(cv)=>{
+  async seedCvs(cvs: AddCvDTO[]) {
+    cvs.forEach(async (cv) => {
       const newCV = await this.addCv(cv);
-      console.log("Add new CV in the DATABASE",newCV);
-    })
+      console.log('Add new CV in the DATABASE', newCV);
+    });
   }
   /**
    * Retrieves a single CV entity from the database by its ID.
@@ -80,11 +80,11 @@ export class CvService {
     const findCv = await this.cvRepository.preload({
       id,
       ...cv,
-    }); 
+    });
     if (!findCv) {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
     }
-    const updateCV = {findCv,...cv}
+    const updateCV = { findCv, ...cv };
     return await this.cvRepository.save(updateCV); // On enregistre les nouvelles donnees du CV, typeORM va se charger de faire l'UPDATE
   }
 

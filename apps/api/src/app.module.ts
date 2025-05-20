@@ -10,6 +10,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CvModule } from './cv/cv.module';
+import { SeedModule } from './seed/seed.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -31,6 +32,7 @@ import { UserModule } from './user/user.module';
     CvModule,
     UserModule,
     AuthModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

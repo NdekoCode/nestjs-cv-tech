@@ -1,4 +1,4 @@
-import { cvs } from 'src/data/constants';
+import { fakeCVS } from 'src/data/constants';
 
 import {
   Body,
@@ -42,7 +42,7 @@ export class CvController {
 
   @Post('seed')
   async seedCv() {
-    return await this.cvService.seedCvs(cvs);
+    return await this.cvService.seedCvs(fakeCVS);
   }
 
   /**

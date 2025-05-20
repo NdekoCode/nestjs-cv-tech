@@ -1,6 +1,6 @@
 import { AddCvDTO } from 'src/cv/dto/add-cv.dto';
 
-export const cvs: AddCvDTO[] = [
+export const fakeCVS: AddCvDTO[] = [
   {
     name: 'Jean Dupont',
     cin: 12345678,

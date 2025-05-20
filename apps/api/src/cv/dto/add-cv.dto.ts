@@ -1,6 +1,8 @@
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
+import { UserEntity } from '@/src/user/entities/user.entity';
+
 export class AddCvDTO {
   @IsString()
   @IsNotEmpty()
@@ -22,4 +24,6 @@ export class AddCvDTO {
   @IsOptional()
   @IsString()
   path: string;
+  @IsOptional()
+  user?: UserEntity;
 }
