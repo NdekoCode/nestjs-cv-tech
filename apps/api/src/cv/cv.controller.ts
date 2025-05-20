@@ -68,6 +68,7 @@ export class CvController {
    * @returns {Promise<CvEntity>} The CvEntity object representing the requested CV.
    */
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   async getSingleCv(
     @Param('id', ParseIntPipe) id: number,
     @User() user: UserEntity,
@@ -127,6 +128,7 @@ export class CvController {
    * @returns {Promise<void>} A promise that resolves when the CV is recovered.
    */
   @Get('/recover/:id')
+  @UseGuards(JwtAuthGuard)
   async recoverCv(@Param('id', ParseIntPipe) id: number) {
     return await this.cvService.recoverCv(id);
   }

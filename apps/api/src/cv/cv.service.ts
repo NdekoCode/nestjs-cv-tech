@@ -34,7 +34,7 @@ export class CvService {
    *
    */
   async getCvs(user: UserEntity): Promise<CvEntity[]> {
-    if (!this.userChecking.checkIfIsAdmin(user.role)) {
+    if (!this.userChecking.IsAdmin(user.role)) {
       // Je veux avoir une promesse d'avoir des CV-Entity
       return await this.cvRepository.find({
         where: {
@@ -58,14 +58,12 @@ export class CvService {
     if (!cv) {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
     }
-    if (
-      !this.userChecking.isOwn(user, cv) ||
-      !this.userChecking.checkIfIsAdmin(user.role)
-    ) {
+    if (!this.userChecking.isOwnerOrAdmin(user, cv)) {
       throw new UnauthorizedException(
         'You are not allowed to access to this ressource',
       );
     }
+
     return cv;
   }
 
@@ -101,8 +99,8 @@ export class CvService {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
     }
     if (
-      !this.userChecking.isOwn(user, findCv) ||
-      !this.userChecking.checkIfIsAdmin(user.role)
+      !this.userChecking.isOwn(user, findCv) &&
+      !this.userChecking.IsAdmin(user.role)
     ) {
       throw new UnauthorizedException(
         'You are not allowed to access to this ressource',
@@ -147,7 +145,15 @@ export class CvService {
    * @returns A promise that resolves to the soft removed CV entity.
    * @throws NotFoundException if the CV with the given ID is not found.
    */
-  async deleteCv(id: number) {
+  async deleteCv(id: number, user: UserEntity) {
+    if (
+      !this.userChecking.isOwn(user, { user }) &&
+      !this.userChecking.IsAdmin(user.role)
+    ) {
+      throw new UnauthorizedException(
+        'You are not allowed to access to this ressource',
+      );
+    }
     return await this.cvRepository.softDelete(id);
   }
   /**
@@ -156,7 +162,12 @@ export class CvService {
    * @returns A promise that resolves to the restored CV entity.
    * @throws NotFoundException if the CV with the given ID is not found.
    */
-  async restoreCv(id: number) {
+  async restoreCv(id: number, user: UserEntity) {
+    if (!this.userChecking.IsAdmin(user.role)) {
+      throw new UnauthorizedException(
+        'You are not allowed to access to this ressource',
+      );
+    }
     // `restore` n'a pas besoin d'aller chercher une entité spécifique, il va le trouver lui meme par son id ou l'option `where:{}` et le restorer
     return await this.cvRepository.restore(id);
   }

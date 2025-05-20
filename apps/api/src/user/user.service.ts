@@ -38,7 +38,7 @@ export class UserService {
   }
 
   async findAll(user: UserEntity) {
-    if (!this.userChecking.checkIfIsAdmin(user.role)) {
+    if (!this.userChecking.IsAdmin(user.role)) {
       throw new UnauthorizedException(
         'You are not allowed to access to this ressource',
       );
@@ -63,7 +63,7 @@ export class UserService {
 
     if (
       !this.userChecking.isOwn(user, { user }) ||
-      !this.userChecking.checkIfIsAdmin(user.role)
+      !this.userChecking.IsAdmin(user.role)
     ) {
       throw new UnauthorizedException(
         'You are not allowed to access to this ressource',
@@ -79,7 +79,7 @@ export class UserService {
 
     if (
       !this.userChecking.isOwn(user, { user }) ||
-      !this.userChecking.checkIfIsAdmin(user.role)
+      !this.userChecking.IsAdmin(user.role)
     ) {
       throw new UnauthorizedException(
         'You are not allowed to access to this ressource',
