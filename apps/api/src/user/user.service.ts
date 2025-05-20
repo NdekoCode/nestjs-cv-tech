@@ -4,18 +4,21 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
+import { UserChecking } from './user-checking.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private readonly userChecking: UserChecking,
   ) {}
   async create(createUserDto: CreateUserDto) {
     let checkIfUserExist = false;
@@ -34,7 +37,12 @@ export class UserService {
     return await this.userRepository.save(newUser);
   }
 
-  async findAll() {
+  async findAll(user: UserEntity) {
+    if (!this.userChecking.checkIfIsAdmin(user.role)) {
+      throw new UnauthorizedException(
+        'You are not allowed to access to this ressource',
+      );
+    }
     return await this.userRepository.find();
   }
 
@@ -46,11 +54,21 @@ export class UserService {
     if (!user) {
       throw new NotFoundException(`User with ${id} is not found`);
     }
+
     return user;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.findOne(id);
+
+    if (
+      !this.userChecking.isOwn(user, { user }) ||
+      !this.userChecking.checkIfIsAdmin(user.role)
+    ) {
+      throw new UnauthorizedException(
+        'You are not allowed to access to this ressource',
+      );
+    }
     const checkUser = await this.userRepository.preload(user);
     const updatedUser = { ...checkUser, updateUserDto };
     return await this.userRepository.save(updatedUser);
@@ -58,6 +76,15 @@ export class UserService {
 
   async remove(id: number) {
     const user = await this.findOne(id);
+
+    if (
+      !this.userChecking.isOwn(user, { user }) ||
+      !this.userChecking.checkIfIsAdmin(user.role)
+    ) {
+      throw new UnauthorizedException(
+        'You are not allowed to access to this ressource',
+      );
+    }
     return await this.userRepository.remove(user);
   }
 }

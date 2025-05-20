@@ -68,8 +68,11 @@ export class CvController {
    * @returns {Promise<CvEntity>} The CvEntity object representing the requested CV.
    */
   @Get(':id')
-  async getSingleCv(@Param('id', ParseIntPipe) id: number): Promise<CvEntity> {
-    return await this.cvService.getSingleCv(id);
+  async getSingleCv(
+    @Param('id', ParseIntPipe) id: number,
+    @User() user: UserEntity,
+  ): Promise<CvEntity> {
+    return await this.cvService.getSingleCv(id, user);
   }
   /**
    * Updates an existing CV.
@@ -96,8 +99,11 @@ export class CvController {
    */
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async removeCv(@Param('id', ParseIntPipe) id: number) {
-    return await this.cvService.removeCv(id);
+  async removeCv(
+    @Param('id', ParseIntPipe) id: number,
+    @User() user: UserEntity,
+  ) {
+    return await this.cvService.removeCv(id, user);
   }
 
   /**
@@ -107,8 +113,11 @@ export class CvController {
    * @returns {Promise<CvEntity>} The CvEntity object representing the soft-removed CV.
    */
   @Delete('/soft-delete/:id')
-  async softRemoveCv(@Param('id', ParseIntPipe) id: number): Promise<CvEntity> {
-    return this.cvService.softRemoveCv(id);
+  async softRemoveCv(
+    @Param('id', ParseIntPipe) id: number,
+    @User() user: UserEntity,
+  ): Promise<CvEntity> {
+    return this.cvService.softRemoveCv(id, user);
   }
 
   /**

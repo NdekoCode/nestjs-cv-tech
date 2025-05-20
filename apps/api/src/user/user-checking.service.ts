@@ -1,3 +1,4 @@
+import { EUserRoles } from '@/types/enums/user-role.enum';
 import { Injectable } from '@nestjs/common';
 
 import { UserEntity } from './entities/user.entity';
@@ -8,5 +9,8 @@ export class UserChecking {
     return (
       user.email === data.user.email || user.username === data.user.username
     );
+  }
+  checkIfIsAdmin(role: EUserRoles) {
+    return role === EUserRoles.ADMIN;
   }
 }
