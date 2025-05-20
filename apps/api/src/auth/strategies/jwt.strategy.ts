@@ -40,7 +40,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (user) {
       delete user.password;
       delete user.salt;
-      return { user };
+      // Nous permettra d'avoir un objet `user` dans la requete utilisateur un peu comme `req.user`
+      return user;
     }
     throw new UnauthorizedException('User not allowed');
   }

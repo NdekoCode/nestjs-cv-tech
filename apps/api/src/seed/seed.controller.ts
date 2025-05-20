@@ -29,7 +29,7 @@ export class SeedController {
       try {
         const randomUser =
           createdUsers[Math.floor(Math.random() * createdUsers.length)];
-        const newCv = await this.cvService.addCv({ ...cv, user: randomUser });
+        const newCv = await this.cvService.addCv(cv, randomUser);
         console.log(
           `📄 CV "${newCv.name}" created and  associate to ${randomUser.email}`,
         );

@@ -1,5 +1,3 @@
-import { fakeCVS } from 'src/data/constants';
-
 import {
   Body,
   Controller,
@@ -14,6 +12,7 @@ import {
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { UserEntity } from '../user/entities/user.entity';
 import { CvService } from './cv.service';
 import { AddCvDTO } from './dto/add-cv.dto';
 import { UpdateCvDTO } from './dto/update-cv.dto';
@@ -40,11 +39,6 @@ export class CvController {
     return await this.cvService.getCvs();
   }
 
-  @Post('seed')
-  async seedCv() {
-    return await this.cvService.seedCvs(fakeCVS);
-  }
-
   /**
    * Adds a new CV.
    *
@@ -54,8 +48,8 @@ export class CvController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async addCv(@Body() cv: AddCvDTO, @Req() request): Promise<CvEntity> {
-    console.log(request.user);
-    return await this.cvService.addCv(cv);
+    const user = request.user as UserEntity;
+    return await this.cvService.addCv(cv, user);
   }
 
   @Get('stats/:max/:min')

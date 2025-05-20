@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
+import { UserEntity } from '../user/entities/user.entity';
 import { AddCvDTO } from './dto/add-cv.dto';
 import { UpdateCvDTO } from './dto/update-cv.dto';
 import { CvEntity } from './entities/cv.entity';
@@ -30,13 +31,6 @@ export class CvService {
     // Je veux avoir une promesse d'avoir des CV-Entity
     return await this.cvRepository.find({ relations: ['user'] });
   }
-
-  async seedCvs(cvs: AddCvDTO[]) {
-    cvs.forEach(async (cv) => {
-      const newCV = await this.addCv(cv);
-      console.log('Add new CV in the DATABASE', newCV);
-    });
-  }
   /**
    * Retrieves a single CV entity from the database by its ID.
    * @param id - The ID of the CV to retrieve.
@@ -55,9 +49,10 @@ export class CvService {
    * Adds a new CV to the database.
    * @param cv The DTO (Data Transfer Object) containing the data for the new CV.
    */
-  async addCv(cv: AddCvDTO): Promise<CvEntity> {
+  async addCv(cv: AddCvDTO, user: UserEntity): Promise<CvEntity> {
     // Implementation for adding a new CV
     const newCv = this.cvRepository.create(cv);
+    newCv.user = user;
     // Va créer un nouvel objet CV en se basant sur les données de la DTO et si elle existe deja dans la BDD, elle va faire un UPDATE
     return await this.cvRepository.save(newCv);
   }
