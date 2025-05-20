@@ -6,6 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UserEntity } from '../user/entities/user.entity';
+import { UserChecking } from '../user/user-checking.service';
 import { UserModule } from '../user/user.module';
 import { UserService } from '../user/user.service';
 import { AuthController } from './auth.controller';
@@ -28,7 +29,7 @@ dotenv.config();
       },
     }),
   ],
-  providers: [AuthService, UserService, JwtStrategy],
+  providers: [AuthService, UserService, JwtStrategy, UserChecking],
   controllers: [AuthController],
 })
 export class AuthModule {}

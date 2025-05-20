@@ -1,5 +1,3 @@
-import { cvs } from 'src/data/constants';
-
 import {
   Body,
   Controller,
@@ -13,6 +11,8 @@ import {
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { User } from '../decorators/user.decorator';
+import { UserEntity } from '../user/entities/user.entity';
 import { CvService } from './cv.service';
 import { AddCvDTO } from './dto/add-cv.dto';
 import { UpdateCvDTO } from './dto/update-cv.dto';
@@ -35,13 +35,8 @@ export class CvController {
    */
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getCvs(): Promise<CvEntity[]> {
-    return await this.cvService.getCvs();
-  }
-
-  @Post('seed')
-  async seedCv() {
-    return await this.cvService.seedCvs(cvs);
+  async getCvs(@User() user: UserEntity): Promise<CvEntity[]> {
+    return await this.cvService.getCvs(user);
   }
 
   /**
@@ -52,17 +47,20 @@ export class CvController {
    */
   @UseGuards(JwtAuthGuard)
   @Post()
-  async addCv(@Body() cv: AddCvDTO): Promise<CvEntity> {
-    return await this.cvService.addCv(cv);
+  async addCv(
+    @Body() cv: AddCvDTO,
+    @User() user: UserEntity,
+  ): Promise<CvEntity> {
+    return await this.cvService.addCv(cv, user);
   }
 
   @Get('stats/:max/:min')
   async getStatsCvNumberByAge(
     @Param('min', ParseIntPipe) min: number = 0,
     @Param('max', ParseIntPipe) max: number = 100,
+    @User() user: UserEntity,
   ): Promise<CvEntity[]> {
-    console.log('Params', min, max);
-    return this.cvService.statsCvNumberByAge(max, min);
+    return this.cvService.statsCvNumberByAge(max, min, user);
   }
   /**
    * Retrieves a single CV by its ID.
@@ -71,9 +69,14 @@ export class CvController {
    * @returns {Promise<CvEntity>} The CvEntity object representing the requested CV.
    */
   @Get(':id')
-  async getSingleCv(@Param('id', ParseIntPipe) id: number): Promise<CvEntity> {
-    return await this.cvService.getSingleCv(id);
+  @UseGuards(JwtAuthGuard)
+  async getSingleCv(
+    @Param('id', ParseIntPipe) id: number,
+    @User() user: UserEntity,
+  ): Promise<CvEntity> {
+    return await this.cvService.getSingleCv(id, user);
   }
+
   /**
    * Updates an existing CV.
    *
@@ -86,8 +89,9 @@ export class CvController {
   async updateCv(
     @Body() cv: UpdateCvDTO,
     @Param('id', ParseIntPipe) id: number,
+    @User() user: UserEntity,
   ): Promise<CvEntity> {
-    return this.cvService.updateCv(id, cv);
+    return this.cvService.updateCv(id, cv, user);
   }
 
   /**
@@ -98,8 +102,11 @@ export class CvController {
    */
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async removeCv(@Param('id', ParseIntPipe) id: number) {
-    return await this.cvService.removeCv(id);
+  async removeCv(
+    @Param('id', ParseIntPipe) id: number,
+    @User() user: UserEntity,
+  ) {
+    return await this.cvService.removeCv(id, user);
   }
 
   /**
@@ -108,9 +115,13 @@ export class CvController {
    * @param {number} id The ID of the CV to soft-remove.
    * @returns {Promise<CvEntity>} The CvEntity object representing the soft-removed CV.
    */
+  @UseGuards(JwtAuthGuard)
   @Delete('/soft-delete/:id')
-  async softRemoveCv(@Param('id', ParseIntPipe) id: number): Promise<CvEntity> {
-    return this.cvService.softRemoveCv(id);
+  async softRemoveCv(
+    @Param('id', ParseIntPipe) id: number,
+    @User() user: UserEntity,
+  ): Promise<CvEntity> {
+    return this.cvService.softRemoveCv(id, user);
   }
 
   /**
@@ -120,7 +131,11 @@ export class CvController {
    * @returns {Promise<void>} A promise that resolves when the CV is recovered.
    */
   @Get('/recover/:id')
-  async recoverCv(@Param('id', ParseIntPipe) id: number) {
-    return await this.cvService.recoverCv(id);
+  @UseGuards(JwtAuthGuard)
+  async recoverCv(
+    @Param('id', ParseIntPipe) id: number,
+    @User() user: UserEntity,
+  ) {
+    return await this.cvService.recoverCv(id, user);
   }
 }

@@ -1,5 +1,4 @@
-import { users } from 'src/data/constants';
-
+import { fakeUsers } from '@/src/data/constants';
 import {
   Body,
   Controller,
@@ -10,8 +9,10 @@ import {
   Post,
 } from '@nestjs/common';
 
+import { User } from '../decorators/user.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserEntity } from './entities/user.entity';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -25,14 +26,14 @@ export class UserController {
 
   @Post('seed')
   async seedUsers() {
-    users.forEach(async (user) => {
+    fakeUsers.forEach(async (user) => {
       await this.userService.create(user);
       console.log('New user created');
     });
   }
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  findAll(@User() user: UserEntity) {
+    return this.userService.findAll(user);
   }
 
   @Get(':id')

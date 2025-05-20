@@ -48,7 +48,7 @@ export class UserEntity extends TimestampEntity {
     type: 'enum',
     default: EUserRoles.USER,
   })
-  role: string;
+  role: EUserRoles;
 
   @Column({
     type: 'varchar',

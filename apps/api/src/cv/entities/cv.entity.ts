@@ -10,22 +10,6 @@ export class CvEntity extends TimestampEntity {
   @Column('varchar', { length: 200 })
   name: string;
 
-  @Column('varchar', { length: 100 })
-  firstName: string;
-  @Column({ type: 'varchar', length: 100 })
-  lastName: string;
-
-  @Column({
-    unique: true,
-  })
-  email: string;
-
-  @Column({
-    type: 'int',
-    update: false,
-  })
-  age: number;
-
   @Column('int', {
     nullable: true,
   })
