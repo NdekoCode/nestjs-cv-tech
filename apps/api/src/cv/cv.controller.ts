@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 
@@ -52,7 +53,8 @@ export class CvController {
    */
   @UseGuards(JwtAuthGuard)
   @Post()
-  async addCv(@Body() cv: AddCvDTO): Promise<CvEntity> {
+  async addCv(@Body() cv: AddCvDTO, @Req() request): Promise<CvEntity> {
+    console.log(request.user);
     return await this.cvService.addCv(cv);
   }
 
@@ -61,7 +63,6 @@ export class CvController {
     @Param('min', ParseIntPipe) min: number = 0,
     @Param('max', ParseIntPipe) max: number = 100,
   ): Promise<CvEntity[]> {
-    console.log('Params', min, max);
     return this.cvService.statsCvNumberByAge(max, min);
   }
   /**

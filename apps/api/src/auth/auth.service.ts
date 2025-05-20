@@ -70,7 +70,6 @@ export class AuthService {
       throw new UnauthorizedException('email, username or password invalid');
     }
 
-    console.log(qb.getSql());
     const hashPassword = await bcrypt.hash(password, user.salt);
     // Si oui verifie est-ce que le mot de passe est correct ou pas ?
     const isMatch = await bcrypt.compare(password, user.password);

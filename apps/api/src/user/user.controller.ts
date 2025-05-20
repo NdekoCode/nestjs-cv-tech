@@ -1,5 +1,4 @@
-import { users } from 'src/data/constants';
-
+import { fakeUsers } from '@/src/data/constants';
 import {
   Body,
   Controller,
@@ -25,7 +24,7 @@ export class UserController {
 
   @Post('seed')
   async seedUsers() {
-    users.forEach(async (user) => {
+    fakeUsers.forEach(async (user) => {
       await this.userService.create(user);
       console.log('New user created');
     });
