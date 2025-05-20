@@ -136,6 +136,12 @@ export class CvService {
     if (!cvToRemove) {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
     }
+
+    if (!this.userChecking.IsAdmin(user.role)) {
+      throw new UnauthorizedException(
+        'You are not allowed to access to this ressource',
+      );
+    }
     return await this.cvRepository.softRemove(cvToRemove);
   }
 
@@ -146,10 +152,7 @@ export class CvService {
    * @throws NotFoundException if the CV with the given ID is not found.
    */
   async deleteCv(id: number, user: UserEntity) {
-    if (
-      !this.userChecking.isOwn(user, { user }) &&
-      !this.userChecking.IsAdmin(user.role)
-    ) {
+    if (!this.userChecking.isOwnerOrAdmin(user, { user })) {
       throw new UnauthorizedException(
         'You are not allowed to access to this ressource',
       );
@@ -177,14 +180,19 @@ export class CvService {
    * @returns A promise that resolves to the restored CV entity.
    * @throws NotFoundException if the CV with the given ID is not found.
    */
-  async recoverCv(id: number) {
+  async recoverCv(id: number, user: UserEntity) {
     const cvToRecover = await this.cvRepository.findOne({
       where: { id },
       withDeleted: true,
     });
-
     if (!cvToRecover) {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
+    }
+
+    if (!this.userChecking.IsAdmin(user.role)) {
+      throw new UnauthorizedException(
+        'You are not allowed to access to this ressource',
+      );
     }
     return await this.cvRepository.recover(cvToRecover);
   }
@@ -193,7 +201,16 @@ export class CvService {
    * Retrieves the number of CVs grouped by age.
    * @returns A promise that resolves to an array of objects containing the age and the count of CVs for that age.
    */
-  async statsCvNumberByAge(maxAge: number, minAge: number = 0) {
+  async statsCvNumberByAge(
+    maxAge: number,
+    minAge: number = 0,
+    user: UserEntity,
+  ) {
+    if (!this.userChecking.IsAdmin(user.role)) {
+      throw new UnauthorizedException(
+        'You are not allowed to access to this ressource',
+      );
+    }
     // On créer notre Query Builder
     const qb = this.cvRepository.createQueryBuilder('cv'); // L'Alias c'est le nom que vous avez ou allez donner à votre entité pour que lorsque vous créer vos requêtes que vous puissiez référencer la table sur laquelle vous travailler.
     qb.select('cv.age, count(cv.id) as NUMBER_OF_CV')

@@ -58,8 +58,9 @@ export class CvController {
   async getStatsCvNumberByAge(
     @Param('min', ParseIntPipe) min: number = 0,
     @Param('max', ParseIntPipe) max: number = 100,
+    @User() user: UserEntity,
   ): Promise<CvEntity[]> {
-    return this.cvService.statsCvNumberByAge(max, min);
+    return this.cvService.statsCvNumberByAge(max, min, user);
   }
   /**
    * Retrieves a single CV by its ID.
@@ -75,6 +76,7 @@ export class CvController {
   ): Promise<CvEntity> {
     return await this.cvService.getSingleCv(id, user);
   }
+
   /**
    * Updates an existing CV.
    *
@@ -113,6 +115,7 @@ export class CvController {
    * @param {number} id The ID of the CV to soft-remove.
    * @returns {Promise<CvEntity>} The CvEntity object representing the soft-removed CV.
    */
+  @UseGuards(JwtAuthGuard)
   @Delete('/soft-delete/:id')
   async softRemoveCv(
     @Param('id', ParseIntPipe) id: number,
@@ -129,7 +132,10 @@ export class CvController {
    */
   @Get('/recover/:id')
   @UseGuards(JwtAuthGuard)
-  async recoverCv(@Param('id', ParseIntPipe) id: number) {
-    return await this.cvService.recoverCv(id);
+  async recoverCv(
+    @Param('id', ParseIntPipe) id: number,
+    @User() user: UserEntity,
+  ) {
+    return await this.cvService.recoverCv(id, user);
   }
 }

@@ -17,6 +17,6 @@ export class UserChecking {
     return role === EUserRoles.ADMIN;
   }
   isOwnerOrAdmin(user: UserEntity, data: { user: UserEntity }) {
-    return this.isOwn(user, data) || this.IsAdmin(user.role);
+    return this.isOwn(user, data) || this.IsAdmin(user?.role);
   }
 }

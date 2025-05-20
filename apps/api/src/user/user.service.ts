@@ -51,6 +51,12 @@ export class UserService {
       throw new ConflictException('Provide a valid User ID');
     }
     const user = await this.userRepository.findOne({ where: { id } });
+
+    if (!this.userChecking.isOwnerOrAdmin(user, { user })) {
+      throw new UnauthorizedException(
+        'You are not allowed to access to this ressource',
+      );
+    }
     if (!user) {
       throw new NotFoundException(`User with ${id} is not found`);
     }
@@ -61,10 +67,7 @@ export class UserService {
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.findOne(id);
 
-    if (
-      !this.userChecking.isOwn(user, { user }) ||
-      !this.userChecking.IsAdmin(user.role)
-    ) {
+    if (!this.userChecking.isOwnerOrAdmin(user, { user })) {
       throw new UnauthorizedException(
         'You are not allowed to access to this ressource',
       );
@@ -77,10 +80,7 @@ export class UserService {
   async remove(id: number) {
     const user = await this.findOne(id);
 
-    if (
-      !this.userChecking.isOwn(user, { user }) ||
-      !this.userChecking.IsAdmin(user.role)
-    ) {
+    if (!this.userChecking.isOwnerOrAdmin(user, { user })) {
       throw new UnauthorizedException(
         'You are not allowed to access to this ressource',
       );
