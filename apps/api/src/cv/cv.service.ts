@@ -1,6 +1,10 @@
 import { Repository } from 'typeorm';
 
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { UserEntity } from '../user/entities/user.entity';
@@ -27,9 +31,16 @@ export class CvService {
    * @returns A promise that resolves to an array of CV entities.
    *
    */
-  async getCvs(): Promise<CvEntity[]> {
+  async getCvs(user: UserEntity): Promise<CvEntity[]> {
     // Je veux avoir une promesse d'avoir des CV-Entity
-    return await this.cvRepository.find({ relations: ['user'] });
+    return await this.cvRepository.find({
+      where: {
+        user: {
+          email: user.email,
+        },
+      },
+      relations: ['user'],
+    });
   }
   /**
    * Retrieves a single CV entity from the database by its ID.
@@ -71,13 +82,25 @@ export class CvService {
    * @returns A promise that resolves to the updated CV entity.
    * @throws NotFoundException if the CV with the given ID is not found.
    */
-  async updateCv(id: number, cv: Partial<UpdateCvDTO>): Promise<CvEntity> {
+  async updateCv(
+    id: number,
+    cv: Partial<UpdateCvDTO>,
+    user: UserEntity,
+  ): Promise<CvEntity> {
     const findCv = await this.cvRepository.preload({
       id,
       ...cv,
     });
     if (!findCv) {
       throw new NotFoundException(`Cv with ID: ${id} is not found`);
+    }
+    if (
+      findCv.user.username !== user.username ||
+      findCv.user.email !== user.email
+    ) {
+      throw new UnauthorizedException(
+        'You are not allowed to access to this ressource',
+      );
     }
     const updateCV = { findCv, ...cv };
     return await this.cvRepository.save(updateCV); // On enregistre les nouvelles donnees du CV, typeORM va se charger de faire l'UPDATE
